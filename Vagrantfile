@@ -7,14 +7,16 @@
 # you're doing.
 
 def nodeIP(num)
-  return "172.17.4.#{num+200}"
+  return "10.17.4.#{num+200}"
 end
 def masterIP(num)
-  return "172.17.4.#{num}"
+  return "10.17.4.#{num+1}"
 end
 
 $masters = 1
 $nodes = 2
+
+$hosts = Hash.new
 Vagrant.configure("2") do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
@@ -37,6 +39,7 @@ Vagrant.configure("2") do |config|
     config.vm.define vm_name = "master#{i}" do |master|
       master.vm.hostname = vm_name
       masterIP = masterIP(i)
+      $hosts[vm_name] = masterIP
       master.vm.network :private_network, ip: masterIP
 
     end
@@ -46,6 +49,7 @@ Vagrant.configure("2") do |config|
     config.vm.define vm_name = "node#{i}" do |node|
       node.vm.hostname = vm_name
       nodeIP = nodeIP(i)
+      $hosts[vm_name] = nodeIP
       node.vm.network :private_network, ip: nodeIP
     end
   end
@@ -109,5 +113,19 @@ Vagrant.configure("2") do |config|
       echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
       echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
     SHELL
+
+    # (1..$masters).each do |i|
+    #   ip = masterIP(i)
+    #   host = "master#{i}"
+    #   p host
+    #   s.inline = "echo \"#{host} #{ip}\" >> /etc/hosts"
+    # end
+    # (1..$nodes).each do |i|
+    #   ip = nodeIP(i)
+    #   host = "node#{i}"
+    #   p host
+    #   s.inline = "echo \"#{host} #{ip}\" >> /etc/hosts"
+    # end
+
   end
 end
