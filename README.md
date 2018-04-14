@@ -14,7 +14,7 @@ This is vagrant configuration for running VirtualBox vms with 1 master and 2 nod
 ```
 5. Download repository with openshift-ansible installer: `git clone git@github.com:openshift/openshift-ansible.git`
 6. Select openshift version for changing branch of openshift-ansible repository, e.g: `git checkout release-3.7`
-7. Edit inventory/hosts file in openshift-ansible, example: 
+7. Edit inventory/hosts file in openshift-ansible, example checked in repository:
 ```
 [OSEv3:children]
 masters
@@ -43,10 +43,9 @@ node1 ansible_ssh_host=10.17.4.201 openshift_ip="10.17.4.201" openshift_node_lab
 node2 ansible_ssh_host=10.17.4.202 openshift_ip="10.17.4.202" openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
 ```
 8. Install cluster: `ansible-playbook -i inventory/hosts playbooks/byo/config.yml`
+9. Install oc tool from: https://www.openshift.org/download.html
+10. Modify your systems /etc/hosts to add ip to master1
+11. Login to master1: `oc login https://master1:8443 -u admin`, type any characters as password.
 
 ## TODO:
 * create hosts file automatically
-* create /etc/hosts file automatically
-
-## Bugs:
-* Add more memory to vagrant VM because standard openshift origin installation require more than 512MB.
