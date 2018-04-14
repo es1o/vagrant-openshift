@@ -41,6 +41,7 @@ Vagrant.configure("2") do |config|
     v.functional_vboxsf     = false
     v.gui                   = false
     v.cpus                  = 1
+     v.memory               = 2048
   end
 
   (1..$masters).each do |i|
