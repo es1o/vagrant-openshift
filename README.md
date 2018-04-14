@@ -30,7 +30,7 @@ osm_cluster_network_cidr=10.128.0.0/14
 openshift_portal_net=172.30.0.0/16
 osm_host_subnet_length=9
 # localhost likely doesn't meet the minimum requirements
-openshift_disable_check=disk_availability,memory_availability
+openshift_disable_check=disk_availability,memory_availability,docker_storage
 
 [masters]
 master1 ansible_ssh_host=10.17.4.2 openshift_ip="10.17.4.2" openshift_hostname="master1"
@@ -42,8 +42,7 @@ master1 ansible_ssh_host=10.17.4.2 openshift_ip="10.17.4.2" openshift_hostname="
 node1 ansible_ssh_host=10.17.4.201 openshift_ip="10.17.4.201" openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
 node2 ansible_ssh_host=10.17.4.202 openshift_ip="10.17.4.202" openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
 ```
-8. Install prerequisites: `ansible-playbook -i inventory/hosts playbooks/prerequisites.yml`
-9. Install openshift origin cluster: `ansible-playbook -i inventory/hosts playbooks/deploy_cluster.yml`
+8. Install cluster: `ansible-playbook -i inventory/hosts playbooks/byo/config.yml`
 
 ## TODO:
 * create hosts file automatically
