@@ -120,6 +120,7 @@ Vagrant.configure("2") do |config|
       mkdir -p /root/.ssh
       echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
       echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+      yum -y install vim
       yum -y install docker-1.12.6
       systemctl enable docker
       systemctl start docker
