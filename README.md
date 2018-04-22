@@ -47,5 +47,10 @@ node2 ansible_ssh_host=10.17.4.202 openshift_ip="10.17.4.202" openshift_node_lab
 10. Modify your systems /etc/hosts to add ip to master1
 11. Login to master1: `oc login https://master1:8443 -u admin`, type any characters as password.
 
+## Ansible playbooks
+### Create nfs for persistent storage
+You can run setup-nfs-server.yml playbook to create nfs share for persistent storage.
+This playbook creates nfs shares from nfs_dirs variable.
+
 ## TODO:
 * create hosts file automatically

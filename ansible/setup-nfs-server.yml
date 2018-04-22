@@ -1,0 +1,41 @@
+- name: "Install nfs server on master nodes"
+  hosts: masters
+  remote_user: root
+  vars:
+    nfs_dirs:
+      - /var/nfs/registry
+      - /var/nfs/data1
+  handlers:
+    - name: "reload exports"
+      command: "exportfs -a"
+  tasks:
+    - name: "Create nfsnobody user"
+      user:
+        name: nfsnobody
+        group: nfsnobody
+        shell: /sbin/nologin
+        home: /var/lib/nfs
+
+    - name: "Create nfs directory"
+      file:
+        path: "{{ nfs_loop }}"
+        state: directory
+        owner: nfsnobody
+        group: nfsnobody
+        mode: 755
+      with_items: "{{ nfs_dirs }}"
+      loop_control:
+        loop_var: nfs_loop
+
+    - name: "Create /etc/exports from template"
+      template:
+        src: ./templates/nfs_exports.j2
+        dest: /etc/exports
+      notify: "reload exports"
+
+    - name: "Allow nfs connection via iptables"
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: 2049
+        jump: ACCEPT
