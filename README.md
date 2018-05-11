@@ -39,6 +39,7 @@ master1 ansible_ssh_host=10.17.4.2 openshift_ip="10.17.4.2" openshift_hostname="
 master1 ansible_ssh_host=10.17.4.2 openshift_ip="10.17.4.2" openshift_hostname="master1"
 
 [nodes]
+master1 ansible_ssh_host=10.17.4.2 openshift_ip="10.17.4.2" openshift_hostname="master1"
 node1 ansible_ssh_host=10.17.4.201 openshift_ip="10.17.4.201" openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
 node2 ansible_ssh_host=10.17.4.202 openshift_ip="10.17.4.202" openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
 ```
