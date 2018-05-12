@@ -53,5 +53,22 @@ node2 ansible_ssh_host=10.17.4.202 openshift_ip="10.17.4.202" openshift_node_lab
 You can run setup-nfs-server.yml playbook to create nfs share for persistent storage.
 This playbook creates nfs shares from nfs_dirs variable.
 
+
+## Configure external registry-console
+1. `oc expose service registry-console --hostname=registry-console.10.17.4.202.xip.io --name=docker-registry-xip` <= this command expose registry using xip.io to be availible outside the cluster
+1. Change TLS to Passthrough
+1. By default oauthclient uses internal registry-console url to redirect after authorization. To change this you need to export registry-console oauthclient and change url.
+```
+oc export oauthclients cockpit-oauth-client -o yaml > oauthclient.yaml
+```
+1. Next change redirectURIs to point to https://registry-console.10.17.4.202.xip.io
+1. Apply changes: `oc apply -f oauthclient.yaml`
+
+## Use docker registry from host
+1. expose registry using xip.io domain: `oc expose service docker-registry --hostname=docker-registry.10.17.4.202.xip.io --name=docker-registry-xip`
+1. Change TLS to Passthrough
+1. login to docker registry `docker login -p <pass_from_console_ui> -u unused docker-registry.10.17.4.202.xip.io`
+1. Push to registry: `docker push docker-registry.10.17.4.202.xip.io/project/image:tag`
+
 ## TODO:
 * create hosts file automatically
