@@ -9,6 +9,9 @@
     - name: "reload exports"
       command: "exportfs -a"
   tasks:
+    - name: "Install nfs-utils"
+      package:
+        name: nfs-utils
     - name: "Create nfsnobody user"
       user:
         name: nfsnobody
@@ -33,9 +36,21 @@
         dest: /etc/exports
       notify: "reload exports"
 
-    - name: "Allow nfs connection via iptables"
+    - name: "Allow nfs connection via iptables - TCP"
       iptables:
         chain: INPUT
         protocol: tcp
         destination_port: 2049
         jump: ACCEPT
+
+    - name: "Allow nfs connection via iptables - udp"
+      iptables:
+        chain: INPUT
+        protocol: udp
+        destination_port: 2049
+        jump: ACCEPT
+
+    - name: "start nfs server"
+      service:
+        name: nfs-server
+        state: started
