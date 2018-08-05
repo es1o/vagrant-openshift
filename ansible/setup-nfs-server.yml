@@ -38,14 +38,14 @@
 
     - name: "Allow nfs connection via iptables - TCP"
       iptables:
-        chain: INPUT
+        chain: OS_FIREWALL_ALLOW
         protocol: tcp
         destination_port: 2049
         jump: ACCEPT
 
-    - name: "Allow nfs connection via iptables - udp"
+    - name: "Allow nfs connection via iptables - UDP"
       iptables:
-        chain: INPUT
+        chain: OS_FIREWALL_ALLOW
         protocol: udp
         destination_port: 2049
         jump: ACCEPT
